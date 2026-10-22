@@ -81,7 +81,8 @@ class FaceDetector:
 
     def detect(self, frame_bgr: np.ndarray) -> list[FaceBox]:
         """Detect faces in a BGR OpenCV frame and return pixel-coordinate boxes."""
-        if frame_bgr is None or frame_bgr.ndim != 3 or frame_bgr.shape[2] != 3:
+        if (frame_bgr is None or frame_bgr.ndim != 3 or frame_bgr.shape[2] != 3
+                or frame_bgr.shape[0] <= 0 or frame_bgr.shape[1] <= 0):
             raise ValueError("frame_bgr must be a non-empty HxWx3 BGR image")
         rgb = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
         mp_image = self._mp.Image(image_format=self._mp.ImageFormat.SRGB, data=rgb)
